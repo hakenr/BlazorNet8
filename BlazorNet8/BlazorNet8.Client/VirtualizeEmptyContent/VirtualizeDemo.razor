@@ -1,0 +1,37 @@
+﻿@page "/virtualize-empty-content"
+@inject IDemoDataService DemoDataService
+
+<h3>Virtualize - EmptyContent</h3>
+
+<table class="table">
+	<tbody>
+		<Virtualize Items="_items" ItemSize="41" SpacerElement="tr">
+			<EmptyContent>
+				Loading data, please wait...
+			</EmptyContent>
+			<ItemContent Context="e">
+				<tr>
+					<td>@e.Id</td>
+					<td>@e.Name</td>
+					<td><HxBadge Color="ThemeColor.Success">@e.Salary</HxBadge></td>
+					<td>
+						<HxIcon Icon="BootstrapIcon.Floppy" />
+						<HxIcon Icon="BootstrapIcon.Pencil" />
+						<HxIcon Icon="BootstrapIcon.Copy" />
+						<HxIcon Icon="BootstrapIcon.Trash" />
+					</td>
+				</tr>
+			</ItemContent>
+		</Virtualize>
+	</tbody>
+</table>
+
+@code {
+	private List<EmployeeDto> _items = [];
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Delay(3000); // for demo purposes only
+		var employees = await DemoDataService.GetAllEmployeesAsync();
+		_items = employees.ToList();
+	}
+}

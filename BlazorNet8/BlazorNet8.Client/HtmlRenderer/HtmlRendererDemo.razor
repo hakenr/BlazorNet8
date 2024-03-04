@@ -1,0 +1,31 @@
+﻿@page "/htmlrenderer"
+@inject HtmlRenderer HtmlRenderer
+
+<h3>HtmlRenderer Demo</h3>
+
+<HxPopover Content="@_popoverContent" Title="Popover" Html="true">
+	Click me! (I have a Popover.)
+</HxPopover>
+
+
+@code {
+	private string _popoverContent;
+
+	// Program.cs: builder.Services.AddTransient<HtmlRenderer, HtmlRenderer>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		_popoverContent = await HtmlRenderer.Dispatcher.InvokeAsync(async () =>
+		{
+			var parametersDictionary = new Dictionary<string, object>
+			{
+				["Message"] = "Hello from the MyPopoverContent component!"
+			};
+
+			var parameters = ParameterView.FromDictionary(parametersDictionary);
+			var output = await HtmlRenderer.RenderComponentAsync<MyPopoverContent>(parameters);
+
+			return output.ToHtmlString();
+		});
+	}
+}

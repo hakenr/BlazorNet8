@@ -1,0 +1,20 @@
+﻿@page "/sections"
+
+<h3>Section Content Demo</h3>
+
+@* See Sidebar.razor for SectionOutlet usage *@
+
+<SectionContent SectionName="SidebarFooter">
+	<HxBadge Color="ThemeColor.Danger">Counter: @_counter</HxBadge>
+</SectionContent>
+
+<HxButton Text="Increment" OnClick="HandleIncrement" Color="ThemeColor.Primary" />
+
+@code {
+	private int _counter;
+
+	private void HandleIncrement()
+	{
+		_counter++;
+	}
+}
